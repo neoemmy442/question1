@@ -8,14 +8,10 @@ public class TransportOfficer extends User {
 
     @Override
     public void requestTransport() {
-        System.out.println(name + " (Transport Officer) is reviewing requests.");
-    }
-
-    public void assignDriver(String vehicleType) {
-        System.out.println("Assigning driver for: " + vehicleType);
+        System.out.println("Welcome " + name);
     }
 
     public void assignDriver(String vehicleType, String shiftTime) {
-        System.out.println("Assigning driver for: " + vehicleType + " during " + shiftTime);
+        System.out.println("Assigning driver for: " + shiftTime +" "+ vehicleType);
     }
 }

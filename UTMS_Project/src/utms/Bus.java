@@ -1,7 +1,7 @@
 package utms;
 
 public class Bus implements Schedulable {
-    private String plateNumber;
+    private final String plateNumber;
 
     public Bus(String plateNumber) {
         this.plateNumber = plateNumber;

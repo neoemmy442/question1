@@ -1,30 +1,99 @@
 package utms;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // Runtime Polymorphism
-        User s = new Student("S001", "Neo", "neo@vu.ac.ug", "CS");
-        User l = new Lecturer("L001", "Dr. Smith", "smith@vu.ac.ug", "Math");
-        TransportOfficer t = new TransportOfficer("T001", "Officer John", "john@vu.ac.ug");
+        Scanner scanner = new Scanner(System.in);
 
-        s.requestTransport();
-        l.requestTransport();
-        t.requestTransport();
+        System.out.println("Select user type:");
+        System.out.println("1. Student");
+        System.out.println("2. Lecturer");
+        System.out.println("3. Transport Officer");
+        System.out.print("Enter option (1-3): ");
+        int option = Integer.parseInt(scanner.nextLine());
 
-        // Method Overloading
-        t.assignDriver("Bus");
-        t.assignDriver("Van", "Morning");
+        User user = null;
 
-        // Interfaces and Implementation
-        Schedulable bus = new Bus("UBB123X");
-        Schedulable van = new Van("UAX456T");
+        String id, name, email, dept = "";
 
-        bus.schedule("8:00 AM");
-        van.schedule("2:30 PM");
+        switch (option) {
+            case 1, 2 -> {
+                System.out.print("\nID: ");
+                id = scanner.nextLine();
+                System.out.print("Name: ");
+                name = scanner.nextLine();
+                System.out.print("Email: ");
+                email = scanner.nextLine();
+                System.out.print("Department: ");
+                dept = scanner.nextLine();
+                user = (option == 1)
+                        ? new Student(id, name, email, dept)
+                        : new Lecturer(id, name, email, dept);
+            }
+            case 3 -> {
+                System.out.print("\nID: ");
+                id = scanner.nextLine();
+                System.out.print("Name: ");
+                name = scanner.nextLine();
+                System.out.print("Email: ");
+                email = scanner.nextLine();
+                user = new TransportOfficer(id, name, email);
+            }
+            default -> {
+                System.out.println("Invalid option.");
+                scanner.close();
+                return;
+            }
+        }
 
-        // Encapsulation in Driver
-        Driver driver = new Driver("David", "D12345678");
-        System.out.println("Driver Name: " + driver.getName());
-        System.out.println("License Number: " + driver.getLicenseNumber());
+        user.requestTransport();
+
+        if (user instanceof TransportOfficer tOfficer) {
+            System.out.println("\nSelect vehicle to assign:");
+            System.out.println("1. Bus");
+            System.out.println("2. Van");
+            System.out.print("Enter option (1-2): ");
+            int vehicleOption = Integer.parseInt(scanner.nextLine());
+
+            if (vehicleOption == 1) {
+                String busPlate = "UBQ 859W";
+                String busTime = "5:30pm";
+                String driverName = "Kirabo Ryan";
+                String driverLicense = "H995896JKD96";
+
+                tOfficer.assignDriver("Bus", "Evening");
+                Schedulable bus = new Bus(busPlate);
+                bus.schedule(busTime);
+
+                System.out.println("Assigned Bus Details:");
+                System.out.println("Plate Number: " + busPlate);
+                System.out.println("Departure Time: " + busTime);
+                System.out.println("Driver Name: " + driverName);
+                System.out.println("License Number: " + driverLicense);
+
+            } else if (vehicleOption == 2) {
+                // Van details (constant)
+                String vanPlate = "UAX 958R";
+                String vanTime = "2:30 PM";
+                String driverName = "Asiimwe Rajab";
+                String driverLicense = "B059960HDG94";
+
+                tOfficer.assignDriver("Van", "Afternoon");
+                Schedulable van = new Van(vanPlate);
+                van.schedule(vanTime);
+
+                System.out.println("Assigned Van Details:");
+                System.out.println("Plate Number: " + vanPlate);
+                System.out.println("Departure Time: " + vanTime);
+                System.out.println("Driver Name: " + driverName);
+                System.out.println("License Number: " + driverLicense);
+
+            } else {
+                System.out.println("Invalid vehicle option.");
+            }
+        }
+
+        scanner.close();
     }
 }
